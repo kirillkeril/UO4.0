@@ -39,7 +39,6 @@ export class AppService {
     async handle(link: string) {
         const group = await this.getGroupIdByLink(link);
         const posts = await this.getWallByGroupId(`${group}`);
-        const comments: Comment[] = [];
 
         posts.map((p, ind) => {
             setTimeout(async () => {
@@ -48,7 +47,7 @@ export class AppService {
                 comments = res.response.items;
                 comments.map(comment => {
                     comments.push(comment);
-                    this.parserService.send("parsed", comment).subscribe();
+                    this.parserService.send("appeal_parsed", comment).subscribe().unsubscribe();
                 });
             }, 500 * ind);
         });

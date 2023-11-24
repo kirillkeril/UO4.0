@@ -3,6 +3,7 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {HttpModule} from '@nestjs/axios';
 import {ClientsModule, Transport} from "@nestjs/microservices";
+import {RmqController} from "./rmq.controller";
 
 @Module({
     imports: [
@@ -19,7 +20,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
             }
         }])
     ],
-    controllers: [AppController],
+    controllers: [AppController, RmqController],
     providers: [AppService],
 })
 export class AppModule {
