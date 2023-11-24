@@ -1,0 +1,6 @@
+keras==2.15.0
+pandas==1.5.3
+scikit_learn==1.0.2
+transformers==4.35.2
+tensorflow==2.15.0
+torch==2.1.1

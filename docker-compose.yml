@@ -1,0 +1,52 @@
+services:
+  db:
+    container_name: db
+    image: "mongo:latest"
+    networks:
+      - custom
+
+  back:
+    container_name: back
+    build: back/
+    ports:
+      - 16001:5000
+    networks:
+      - custom
+    depends_on:
+      - db
+    environment:
+      MONGO_CONNECTION: "mongodb://db:27017/test"
+
+
+  client:
+    container_name: client
+    build: nuxt/
+    ports:
+      - 16002:3000
+    networks:
+      - custom
+
+  ml:
+    container_name: ml
+    build: ml/
+    environment:
+      - CUDA_VISIBLE_DEVICES=-1
+    networks:
+      - custom
+
+  parser:
+    container_name: parser
+    build: parser/
+    networks:
+      - custom
+
+  rmq:
+    container_name: rmq
+    image: rabbitmq:3-management
+    ports:
+      - 16005:5672
+      - 16007:15672
+
+networks:
+  custom:
+    driver: bridge

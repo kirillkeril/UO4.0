@@ -1,0 +1,8 @@
+FROM python:3.9-slim as builder
+
+WORKDIR /home/app
+
+COPY . .
+RUN pip install -r requirements.txt
+
+CMD [ "python", "server.py" ]
