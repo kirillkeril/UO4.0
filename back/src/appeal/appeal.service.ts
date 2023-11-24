@@ -15,11 +15,20 @@ export class AppealService {
                 @Inject("appeal") private readonly rmqService: ClientProxy) {
     }
 
-    async create(createAppealDto: CreateAppealDto): Promise<Appeal> {
-        const entity = await this.appealRepository.create({...createAppealDto, mark: ""});
+
+    async onApplicationBootstrap() {
+        await this.rmqService.connect();
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    }
+
+    async create(createAppealDto: CreateAppealDto) {
+        const entity = await this.appealRepository.create({...createAppealDto, mark: "NEW"});
         await entity.save();
-        this.rmqService.send("appeal_created", entity).subscribe();
-        return entity;
+        try {
+            this.rmqService.send("appeal_created", entity).subscribe();
+        } catch (e) {
+            console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+        }
     }
 
     async findAll(): Promise<Appeal[]> {

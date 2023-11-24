@@ -9,10 +9,10 @@ async function bootstrap() {
     const rmq = app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://rmq:16007'],
+            urls: ['amqp://rmq:5672'],
             queue: 'appeals',
             queueOptions: {
-                durable: false
+                durable: true
             },
         }
     });
@@ -29,7 +29,7 @@ async function bootstrap() {
         origin: true,
     });
 
-    await rmq.init();
+    await app.startAllMicroservices();
     await app.listen(process.env.PORT);
 }
 

@@ -4,7 +4,6 @@ import {MongooseModule} from "@nestjs/mongoose";
 import * as process from "process";
 import {ConfigModule} from "@nestjs/config";
 import {ClientsModule, Transport} from "@nestjs/microservices";
-import { AppealsModule } from './appeals/appeals.module';
 
 
 @Module({
@@ -13,7 +12,7 @@ import { AppealsModule } from './appeals/appeals.module';
             name: "appeal",
             transport: Transport.RMQ,
             options: {
-                urls: ['amqp://bulbaman.me:16005'],
+                urls: ['amqp://rmq:5672'],
                 queue: "appeals",
                 queueOptions: {
                     durable: true,
@@ -26,7 +25,6 @@ import { AppealsModule } from './appeals/appeals.module';
         }),
         AppealModule,
         MongooseModule.forRoot(process.env.MONGO_CONNECTION),
-        AppealsModule
     ],
     controllers: [],
 })
