@@ -4,6 +4,5 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/back" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/parser" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/predictor" vcs="Git" />
   </component>
 </project>

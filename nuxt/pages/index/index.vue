@@ -2,27 +2,15 @@
 import type {Ref} from "vue";
 
 interface Appeal {
-  body: string
-}
-
-interface RequestState {
-  state: string;
-  error: any;
-  value: any;
+  body: string;
 }
 
 const errorState: Ref<boolean> = useState("error", () => false);
+
 const model: Ref<Appeal> = useState("appeal", () => {
   return {
     body: ""
-  }
-});
-const state: Ref<RequestState> = useState("request", () => {
-  return {
-    state: "",
-    error: null,
-    value: null,
-  }
+  };
 });
 
 const sendAppeal = async () => {
@@ -53,9 +41,10 @@ const sendAppeal = async () => {
       </UForm>
     </UContainer>
   </ClientOnly>
+
   <Teleport v-if="errorState" to="body">
-    <UContainer class="bottom-0 left-0 absolute">
-      <UAlert :title="'Ошибка'" class="w-fit">
+    <UContainer>
+      <UAlert :title="'Ошибка'" class="bottom-0 left-0 absolute">
         {{ errorState }}
       </UAlert>
     </UContainer>
