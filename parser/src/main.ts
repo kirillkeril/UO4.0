@@ -7,7 +7,7 @@ async function bootstrap() {
     const rabbit = app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://bulbaman.me:16007'],
+            urls: ['amqp://bulbaman.me:16005'],
             queue: 'appeals',
             queueOptions: {
                 durable: false
@@ -15,6 +15,7 @@ async function bootstrap() {
         }
     });
 
+    await app.startAllMicroservices();
     await app.listen(3000);
 }
 

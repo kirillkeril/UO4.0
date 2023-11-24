@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {CreateAppealDto} from './dto/create-appeal.dto';
 import {UpdateAppealDto} from './dto/update-appeal.dto';
 import {Appeal} from "./entities/appeal.entity";
@@ -6,21 +6,24 @@ import {Model} from "mongoose";
 import {InjectModel} from "@nestjs/mongoose";
 import {HttpService} from "@nestjs/axios";
 import {firstValueFrom} from "rxjs";
+import {ClientProxy} from "@nestjs/microservices";
 
 @Injectable()
 export class AppealService {
-    constructor(@InjectModel(Appeal.name) private appealRepository: Model<Appeal>, private readonly httpService: HttpService) {
+    constructor(@InjectModel(Appeal.name) private appealRepository: Model<Appeal>,
+                private readonly httpService: HttpService,
+                @Inject("appeal") private readonly rmqService: ClientProxy) {
     }
 
     async create(createAppealDto: CreateAppealDto): Promise<Appeal> {
-        const entity = await this.appealRepository.create({...createAppealDto});
+        const entity = await this.appealRepository.create({...createAppealDto, mark: ""});
         await entity.save();
+        this.rmqService.send("appeal_created", entity).subscribe();
         return entity;
     }
 
     async findAll(): Promise<Appeal[]> {
-        const appeals = await this.appealRepository.find();
-        return appeals;
+        return this.appealRepository.find();
     }
 
     async findOne(id: string): Promise<Appeal> {
@@ -47,7 +50,9 @@ export class AppealService {
         }));
         appeal.executor = data['executor'];
         appeal.theme = data['theme'];
-        appeal.subTheme = data['subTheme'];
+        appeal.themeGroup = data['themeGroup'];
+        appeal.tags = data['tags'];
+
         await appeal.save();
     }
 

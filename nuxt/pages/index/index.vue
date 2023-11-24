@@ -2,8 +2,6 @@
 import type {Ref} from "vue";
 
 interface Appeal {
-  author: string,
-  title: string
   body: string
 }
 
@@ -16,8 +14,6 @@ interface RequestState {
 const errorState: Ref<boolean> = useState("error", () => false);
 const model: Ref<Appeal> = useState("appeal", () => {
   return {
-    author: "",
-    title: "",
     body: ""
   }
 });
@@ -37,12 +33,11 @@ const sendAppeal = async () => {
     body: JSON.stringify(model.value),
     server: false
   });
+  model.value.body = "";
   if (error) {
     errorState.value = true;
     return;
   }
-  const res = data.value;
-  console.log(res);
 }
 </script>
 
@@ -51,10 +46,6 @@ const sendAppeal = async () => {
     <UContainer class="pt-2">
       <h1 class="text-3xl text-center mb-5">Обращения граждан!</h1>
       <UForm :state="model" class="flex flex-col justify-center items-center p-4">
-        <UFormGroup class="w-full" label="Представьтесь">
-          <UInput v-model="model.author"/>
-        </UFormGroup>
-
         <UFormGroup class="w-full mt-3" label="Ваше обращение">
           <UTextarea v-model="model.body" autoresize/>
         </UFormGroup>
@@ -63,9 +54,11 @@ const sendAppeal = async () => {
     </UContainer>
   </ClientOnly>
   <Teleport v-if="errorState" to="body">
-    <UAlert title="Ошибка">
-      <p>Произошла ошибка при отправке запроса: {{}}</p>
-    </UAlert>
+    <UContainer class="bottom-0 left-0 absolute">
+      <UAlert :title="'Ошибка'" class="w-fit">
+        {{ errorState }}
+      </UAlert>
+    </UContainer>
   </Teleport>
 </template>
 

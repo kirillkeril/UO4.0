@@ -10,7 +10,6 @@ export class AppealController {
 
     @Post()
     create(@Body() createAppealDto: CreateAppealDto) {
-        console.log(createAppealDto)
         return this.appealService.create(createAppealDto);
     }
 
