@@ -1,6 +1,6 @@
 import {Controller} from '@nestjs/common';
 import {AppealService} from './appeal.service';
-import {Ctx, MessagePattern, Payload, RmqContext, Transport} from "@nestjs/microservices";
+import {Ctx, EventPattern, Payload, RmqContext, Transport} from "@nestjs/microservices";
 import {AppealDocument} from "./entities/appeal.entity";
 
 @Controller()
@@ -8,7 +8,7 @@ export class AppealRmqController {
     constructor(private readonly appealService: AppealService) {
     }
 
-    @MessagePattern("appeal_created", Transport.RMQ)
+    @EventPattern("appeal_created", Transport.RMQ)
     async handleAppeals(@Payload() data: AppealDocument, @Ctx() context: RmqContext) {
         const channel = context.getChannelRef();
         const originalMsg = context.getMessage()
