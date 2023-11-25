@@ -29,14 +29,6 @@ services:
     networks:
       - custom
 
-  ml:
-    container_name: ml
-    build: ml/
-    environment:
-      - CUDA_VISIBLE_DEVICES=-1
-    networks:
-      - custom
-
   parser:
     container_name: parser
     build: parser/
