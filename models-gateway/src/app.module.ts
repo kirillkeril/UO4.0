@@ -8,7 +8,7 @@ import {ClientsModule, Transport} from "@nestjs/microservices";
         name: "appeal",
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://bulbaman.me:16005'],
+            urls: ['amqp://rmq:5672'],
             queue: "appeals",
             queueOptions: {
                 durable: false
