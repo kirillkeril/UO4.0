@@ -11,6 +11,8 @@ export class AppService {
         const result = {};
         // TODO дернуть 1 нейронку, подождать
         // TODO дернуть 2 нейронку, подождать
-        this.service.send("appeal_handled", result);
+        this.service.send("appeal_handled", appeal).subscribe(val => {
+            console.log("appeal handled", val);
+        });
     }
 }

@@ -47,7 +47,9 @@ export class AppService {
                 comments = res.response.items;
                 comments.map(comment => {
                     comments.push(comment);
-                    this.parserService.send("appeal_parsed", comment).subscribe().unsubscribe();
+                    this.parserService.send("appeal_parsed", comment).subscribe(val => {
+                        console.log("appeal parsed", val);
+                    });
                 });
             }, 500 * ind);
         });
