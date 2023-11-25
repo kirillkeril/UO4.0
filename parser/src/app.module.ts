@@ -12,7 +12,7 @@ import {RmqController} from "./rmq.controller";
             name: "parser",
             transport: Transport.RMQ,
             options: {
-                urls: ['amqp://rmq:5672'],
+                urls: ['amqp://bulbaman.me:16005'],
                 queue: "appeals",
                 queueOptions: {
                     durable: true,

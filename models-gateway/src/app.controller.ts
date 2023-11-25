@@ -11,5 +11,6 @@ export class AppController {
     @MessagePattern("appeal_parsed", Transport.RMQ)
     async getHello(@Payload() appeal: Appeal) {
         const result = await this.appService.handle(appeal);
+        console.log(appeal);
     }
 }

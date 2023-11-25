@@ -7,10 +7,10 @@ async function bootstrap() {
     const rabbit = app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://rmq:5672'],
+            urls: ['amqp://bulbaman.me:16005'],
             queue: 'appeals',
             queueOptions: {
-                durable: false
+                durable: true
             },
         }
     });

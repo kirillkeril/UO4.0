@@ -8,7 +8,7 @@ import {ClientProxy} from "@nestjs/microservices";
 @Injectable()
 export class SourcesService {
     constructor(
-        @InjectModel(Source.name) private readonly sourcesRepository: Model<Source>,
+        @InjectModel(Source.name) private sourcesRepository: Model<Source>,
         @Inject("appeal") private readonly rmqService: ClientProxy
     ) {
     }

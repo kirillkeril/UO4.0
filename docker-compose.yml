@@ -14,7 +14,9 @@ services:
       - custom
     depends_on:
       - db
+      - rmq
     environment:
+      RABBIT_CONNECTION: "amqp://rmq:5672"
       MONGO_CONNECTION: "mongodb://db:27017/test"
 
 
@@ -37,8 +39,12 @@ services:
   parser:
     container_name: parser
     build: parser/
+    environment:
+      RABBIT_CONNECTION: "amqp://rmq:5672"
     networks:
       - custom
+    depends_on:
+      - rmq
 
   rmq:
     container_name: rmq
@@ -54,6 +60,11 @@ services:
     build: gw/
     networks:
       - custom
+    environment:
+      RABBIT_CONNECTION: "amqp://rmq:5672"
+    depends_on:
+      - back
+      - rmq
 
 networks:
   custom:

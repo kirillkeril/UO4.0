@@ -9,7 +9,7 @@ async function bootstrap() {
     const rmq = app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://rmq:5672'],
+            urls: [process.env.RABBIT_CONNECTION],
             queue: 'appeals',
             queueOptions: {
                 durable: true

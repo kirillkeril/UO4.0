@@ -6,14 +6,19 @@ import {Appeal, AppealSchema} from "./entities/appeal.entity";
 import {HttpModule} from "@nestjs/axios";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {AppealRmqController} from "./appeal.rmq.controller";
+import {ConfigModule} from "@nestjs/config";
+import * as process from "process";
 
 @Module({
     imports: [
+        ConfigModule.forRoot({
+            envFilePath: ".env"
+        }),
         ClientsModule.register([{
             name: "appeal",
             transport: Transport.RMQ,
             options: {
-                urls: ['amqp://rmq:5672'],
+                urls: [process.env.RABBIT_CONNECTION],
                 queue: "appeals",
                 queueOptions: {
                     durable: true,

@@ -1,7 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {HydratedDocument} from 'mongoose';
 
-export type AppealDocument = HydratedDocument<Source>;
+export type SourceDocument = HydratedDocument<Source>;
 
 @Schema()
 export class Source {
@@ -9,4 +9,4 @@ export class Source {
     link: string;
 }
 
-export const AppealSchema = SchemaFactory.createForClass(Source);
+export const SourceSchema = SchemaFactory.createForClass(Source);
