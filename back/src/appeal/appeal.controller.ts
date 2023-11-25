@@ -18,11 +18,6 @@ export class AppealController {
         return this.appealService.findAll();
     }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.appealService.findOne(id);
-    }
-
     @Patch(':id')
     update(@Param('id') id: string, @Body() updateAppealDto: UpdateAppealDto) {
         return this.appealService.update(id, updateAppealDto);

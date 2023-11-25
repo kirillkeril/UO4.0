@@ -1,5 +1,6 @@
 export interface Appeal {
+    body: string;
     executor: string;
     theme: string;
-    subTheme: string;
+    themeGroup: string;
 }

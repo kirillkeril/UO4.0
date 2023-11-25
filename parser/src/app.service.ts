@@ -2,6 +2,7 @@ import {Inject, Injectable} from '@nestjs/common';
 import {HttpService} from "@nestjs/axios";
 import {firstValueFrom} from "rxjs";
 import {ClientProxy} from "@nestjs/microservices";
+import * as process from "process";
 
 interface GroupResponse {
     response: {
@@ -47,7 +48,7 @@ export class AppService {
                 comments = res.response.items;
                 comments.map(comment => {
                     if (!comment.text) return;
-                    this.httpService.post("http://localhost:5000/appeal", {body: comment.text}).subscribe(val => {
+                    this.httpService.post(process.env.APPEAL_CREATED_SERVICE, {body: comment.text}).subscribe(val => {
                         // console.log(comment.text)
                     });
                 });

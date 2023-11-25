@@ -4,15 +4,15 @@ import {useAsyncData} from "#app";
 
 const columns = [
   {
-    key: 'executor',
-    label: 'Исполнитель',
-    sortable: true
+    key: 'body',
+    label: 'Текст',
+    sortable: false
   }, {
     key: 'theme',
     label: 'Тема',
     sortable: true
   }, {
-    key: 'subTheme',
+    key: 'themeGroup',
     label: 'Группа тем',
     sortable: true
   },
@@ -25,9 +25,11 @@ const sourceModel = useState("snLink", () => {
 });
 
 const {data: appeals, error} = await useAsyncData<Appeal[]>("appeal", () => $fetch('appeal', {
-  baseURL: "http://bulbaman.me:16001",
+  baseURL: "http://localhost:5000",
   timeout: 3000,
 }));
+
+console.log(appeals);
 
 onMounted(() => {
   const toast = useToast();
@@ -38,7 +40,7 @@ onMounted(() => {
 
 const addGroup = async () => {
   const {data, error} = await useFetch("", {
-    baseURL: "https://bulbaman.me:16001/sources",
+    baseURL: "https://localhost:5000/sources",
     method: "POST",
     body: {
       source: sourceModel.value.link
