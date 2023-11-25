@@ -46,6 +46,14 @@ services:
     ports:
       - 16005:5672
       - 16007:15672
+    networks:
+      - custom
+
+  gw:
+    container_name: gw
+    build: gw/
+    networks:
+      - custom
 
 networks:
   custom:
