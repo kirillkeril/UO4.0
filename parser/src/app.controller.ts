@@ -12,6 +12,7 @@ export class AppController {
 
     @Post()
     async handle(@Body() data: Handler) {
+        console.log(data);
         return await this.appService.handle(data.link);
     }
 }

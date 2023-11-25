@@ -6,14 +6,16 @@ import {Source, SourceSchema} from "./entities/source";
 import {ClientsModule, Transport} from "@nestjs/microservices";
 import {ConfigModule} from "@nestjs/config";
 import * as process from "process";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             envFilePath: ".env"
         }),
+        HttpModule.register({}),
         ClientsModule.register([{
-            name: "appeal",
+            name: "appeal_source",
             transport: Transport.RMQ,
             options: {
                 urls: [process.env.RABBIT_CONNECTION],

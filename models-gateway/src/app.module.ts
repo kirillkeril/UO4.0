@@ -3,12 +3,14 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {ConfigModule} from "@nestjs/config";
 import {ClientsModule, Transport} from "@nestjs/microservices";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             envFilePath: ".env"
         }),
+        HttpModule.register({}),
         ClientsModule.register([{
             name: "appeal",
             transport: Transport.RMQ,

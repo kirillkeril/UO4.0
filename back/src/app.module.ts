@@ -24,9 +24,9 @@ import * as process from "process";
                 }
             }
         }]),
-        AppealModule,
         MongooseModule.forRoot(process.env.MONGO_CONNECTION),
         SourcesModule,
+        AppealModule,
     ],
     controllers: [],
 })

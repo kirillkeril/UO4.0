@@ -1,6 +1,6 @@
 import {Controller} from '@nestjs/common';
-import {Ctx, MessagePattern, Payload, RmqContext} from "@nestjs/microservices";
 import {AppService} from "./app.service";
+import {Ctx, MessagePattern, Payload, RmqContext} from "@nestjs/microservices";
 
 interface Handler {
     link: string;

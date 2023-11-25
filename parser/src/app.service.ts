@@ -43,12 +43,12 @@ export class AppService {
         posts.map((p, ind) => {
             setTimeout(async () => {
                 const res = await this.getComments(`${group}`, `${p.id}`);
-                let comments: any[];
+                let comments: Comment[];
                 comments = res.response.items;
                 comments.map(comment => {
-                    comments.push(comment);
-                    this.parserService.send("appeal_parsed", comment).subscribe(val => {
-                        console.log("appeal parsed", val);
+                    if (!comment.text) return;
+                    this.httpService.post("http://localhost:5000/appeal", {body: comment.text}).subscribe(val => {
+                        console.log(comment.text)
                     });
                 });
             }, 500 * ind);

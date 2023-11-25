@@ -15,13 +15,10 @@ export class AppealRmqController {
         const originalMsg = context.getMessage()
         try {
             // TODO вызываем модель классификации -> возврат значений модели
-            const res = data;
-            console.log(res);
-            await this.appealService.handle(res._id.toString());
-            // await channel.ack(originalMsg);
+            await this.appealService.handle(data._id.toString());
             // TODO обновить по id как??
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 

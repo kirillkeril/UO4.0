@@ -25,7 +25,9 @@ export class AppealService {
         const entity = await this.appealRepository.create({...createAppealDto, mark: "NEW"});
         await entity.save();
         try {
-            this.rmqService.send("appeal_created", entity).subscribe();
+            this.rmqService.send("appeal_created", entity).subscribe(val => {
+                console.log(val);
+            });
         } catch (e) {
             console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         }
@@ -53,8 +55,9 @@ export class AppealService {
 
     async handle(id: string) {
         const appeal = await this.appealRepository.findById(id);
+        console.log(appeal);
         if (!appeal) throw new NotFoundException();
-        const {data} = await firstValueFrom(this.httpService.post("http://ml:8000", {
+        const {data} = await firstValueFrom(this.httpService.post("http://localhost:5002", {
             "body": appeal.body,
         }));
         appeal.executor = data['executor'];
