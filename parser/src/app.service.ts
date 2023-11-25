@@ -42,19 +42,25 @@ export class AppService {
         const posts = await this.getWallByGroupId(`${group}`);
 
         posts.map((p, ind) => {
+            console.log(process.env.APPEAL_CREATED_SERVICE);
             setTimeout(async () => {
                 const res = await this.getComments(`${group}`, `${p.id}`);
                 let comments: Comment[];
-                comments = res.response.items;
-                comments.map(comment => {
-                    if (!comment.text) return;
-                    this.httpService.post(process.env.APPEAL_CREATED_SERVICE, {body: comment.text}).subscribe(val => {
-                        // console.log(comment.text)
-                    });
+                if (!res.response) return;
+                comments = res.response.items ?? [];
+                comments.map(async comment => {
+                    console.log('pfghjc')
+                    if (comment.text) {
+                        const {
+                            data,
+                            status
+                        } = await firstValueFrom(this.httpService.post("http://localhost:5000/appeal", {body: comment.text}));
+                        console.log(status);
+                    }
                 });
-            }, 500 * ind);
+                console.log('completed');
+            }, 100 * ind);
         });
-
     }
 
     private async getGroupIdByLink(link: string): Promise<number> {
@@ -63,11 +69,15 @@ export class AppService {
         formData.append("access_token", '41ac92e041ac92e041ac92e0e042bafa6a441ac41ac92e024f353fccdbc454ef38a5cdb');
         formData.append("screen_name", prepLink);
         formData.append("v", '5.1999');
-        const {data, status} = await firstValueFrom(this.httpService.post<GroupResponse>(
-            'https://api.vk.com/method/utils.resolveScreenName',
-            formData
-        ));
-        return data.response.object_id;
+        try {
+            const {data, status} = await firstValueFrom(this.httpService.post<GroupResponse>(
+                'https://api.vk.com/method/utils.resolveScreenName',
+                formData
+            ));
+            return data.response.object_id;
+        } catch (e) {
+            console.log()
+        }
     }
 
     private async getWallByGroupId(groupId: string) {
