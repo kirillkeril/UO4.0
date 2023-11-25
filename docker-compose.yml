@@ -18,6 +18,7 @@ services:
     environment:
       RABBIT_CONNECTION: "amqp://rmq:5672"
       MONGO_CONNECTION: "mongodb://db:27017/test"
+      CREATE_SOURCE_HANDLER: "http://parser:5001"
 
 
   client:
@@ -41,6 +42,8 @@ services:
     build: parser/
     environment:
       RABBIT_CONNECTION: "amqp://rmq:5672"
+      APPEAL_CREATED_SERVICE: "http://back:5000"
+
     networks:
       - custom
     depends_on:
