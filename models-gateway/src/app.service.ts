@@ -10,18 +10,17 @@ export class AppService {
     }
 
     async handle(appeal: Appeal) {
-        // TODO дернуть 1 нейронку, подождать
         const {
             data: themeGroup,
             status: themeStatus
-        } = await firstValueFrom(this.httpService.post("ai.vp-pspu.cf", {body: appeal.body}));
-        console.log(themeGroup, themeStatus);
-        // TODO дернуть 2 нейронку, подождать
+        } = await firstValueFrom(this.httpService.post("http://ai.vp-pspu.cf:8080/predict", {body: appeal.body}));
+        // console.log("группа", themeGroup, themeStatus);
+
         const {
             data: theme,
             status: groupStatus
-        } = await firstValueFrom(this.httpService.post("ai.vp-pspu.cf", {body: appeal.body}));
-        console.log(theme, groupStatus);
+        } = await firstValueFrom(this.httpService.post("http://ai.vp-pspu.cf:8000/predict", {body: appeal.body}));
+        // console.log("тема", theme, groupStatus);
 
         // const {
         //     data: tags,
@@ -32,6 +31,8 @@ export class AppService {
         this.service.send("appeal_handled", appeal).subscribe(val => {
         });
         appeal.mark = 'OLD';
+        appeal.theme = theme['predicted_category'];
+        appeal.themeGroup = themeGroup['predicted_category'];
         return appeal;
     }
 }

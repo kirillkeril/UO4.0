@@ -48,7 +48,7 @@ export class AppService {
                 comments.map(comment => {
                     if (!comment.text) return;
                     this.httpService.post("http://localhost:5000/appeal", {body: comment.text}).subscribe(val => {
-                        console.log(comment.text)
+                        // console.log(comment.text)
                     });
                 });
             }, 500 * ind);

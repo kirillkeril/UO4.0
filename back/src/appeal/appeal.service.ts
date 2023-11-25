@@ -18,7 +18,7 @@ export class AppealService {
 
     async onApplicationBootstrap() {
         await this.rmqService.connect();
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+        // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     }
 
     async create(createAppealDto: CreateAppealDto) {
@@ -26,7 +26,7 @@ export class AppealService {
         await entity.save();
         try {
             this.rmqService.send("appeal_created", entity).subscribe(val => {
-                console.log(val);
+                // console.log(val);
             });
         } catch (e) {
             console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
@@ -55,15 +55,19 @@ export class AppealService {
 
     async handle(id: string) {
         const appeal = await this.appealRepository.findById(id);
-        console.log(appeal);
         if (!appeal) throw new NotFoundException();
-        const {data} = await firstValueFrom(this.httpService.post("http://localhost:5002", {
+        const {data, status} = await firstValueFrom(this.httpService.post("http://localhost:5002", {
             "body": appeal.body,
         }));
+
+        // console.log(data, status);
+
         appeal.executor = data['executor'];
         appeal.theme = data['theme'];
         appeal.themeGroup = data['themeGroup'];
         appeal.tags = data['tags'];
+
+        console.log(appeal);
 
         await appeal.save();
     }

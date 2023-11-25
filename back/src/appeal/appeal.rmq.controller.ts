@@ -24,6 +24,6 @@ export class AppealRmqController {
 
     @MessagePattern("appeal_handled", Transport.RMQ)
     async saveAppeal(@Payload() data: Appeal & ObjectId, @Ctx() context: RmqContext) {
-        console.log("appeal saved", data);
+        // console.log("appeal saved", data);
     }
 }

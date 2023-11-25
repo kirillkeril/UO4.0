@@ -11,5 +11,6 @@ export class AppController {
     async handle(@Body() appeal: Appeal) {
         const result = await this.appService.handle(appeal);
         console.log(appeal, result);
+        return result;
     }
 }

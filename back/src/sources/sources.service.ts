@@ -29,7 +29,6 @@ export class SourcesService {
             //     console.log("created new source");
             //     // return res;
             // });
-            console.log("asasd", process.env.CREATE_SOURCE_HANDLER)
             const {data, status} = await firstValueFrom(this.httpService.post(process.env.CREATE_SOURCE_HANDLER, dto));
             console.log(data, status);
         } catch (e) {
