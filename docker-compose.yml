@@ -57,7 +57,7 @@ services:
 
   gw:
     container_name: gw
-    build: gw/
+    build: models-gateway/
     networks:
       - custom
     environment:
