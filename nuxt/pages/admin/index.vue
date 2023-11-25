@@ -42,6 +42,7 @@ const addGroup = async () => {
   const {data, error} = await useFetch("", {
     baseURL: "https://localhost:5000/sources",
     method: "POST",
+    cache: 'no-cache',
     body: {
       source: sourceModel.value.link
     }
@@ -55,7 +56,7 @@ const addGroup = async () => {
 <template>
   <UContainer class="pt-5">
     <h1 class="text-3xl text-center mb-5">Админ-панель</h1>
-    <UForm :state="sourceModel" @submit.prevent="() => addGroup()">
+    <UForm :state="sourceModel" @submit="() => addGroup()">
       <UFormGroup label="Ссылка на группу">
         <UInput v-model="sourceModel.link" placeholder="Ссылка"/>
       </UFormGroup>
