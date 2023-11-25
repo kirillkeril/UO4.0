@@ -2,7 +2,7 @@ import {Controller} from '@nestjs/common';
 import {AppealService} from './appeal.service';
 import {Ctx, MessagePattern, Payload, RmqContext} from "@nestjs/microservices";
 import {Appeal} from "./entities/appeal.entity";
-import ObjectId = module;
+import {ObjectId} from "mongoose";
 
 @Controller()
 export class AppealRmqController {
