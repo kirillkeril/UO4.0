@@ -14,10 +14,14 @@ export class SourcesService {
     }
 
     async create(dto: CreateSourceDto) {
-        const res = await this.sourcesRepository.create({...dto});
-        this.rmqService.send("source_created", res.link).subscribe((value) => {
-            console.log("created new source", value);
-            return res;
-        });
+        try {
+            const res = await this.sourcesRepository.create({...dto});
+            this.rmqService.send("source_created", res.link).subscribe((value) => {
+                console.log("created new source", value);
+                return res;
+            });
+        } catch (e) {
+            console.log("ОШИБКА ", e);
+        }
     }
 }
